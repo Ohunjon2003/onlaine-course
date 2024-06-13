@@ -46,6 +46,7 @@ class Lesson(models.Model):
 
 class UploadVideo(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, related_name='videos')
+    author = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     video = models.FileField(upload_to='lesson/videos/', validators=[
         FileExtensionValidator(allowed_extensions=['mp4', 'wmv'])
     ])

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Direction, Courses, Teacher, Lesson, UploadVideo, Comments, Notifications
+from .models import Direction, Courses, Teacher, Lesson, UploadVideo, Comments, Notifications,Like
 
 @admin.register(Direction)
 class DirectionAdmin(admin.ModelAdmin):
@@ -39,18 +39,18 @@ class UploadVideoAdmin(admin.ModelAdmin):
 
 @admin.register(Comments)
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ('author', 'lesson', 'rating', 'created')
+    list_display = ('author', 'lesson', 'created')
     list_display_links = ('author',)
-    list_filter = ('rating', 'created')
+    list_filter = ('created',)
     search_fields = ('author__username', 'lesson__title', 'text')
     autocomplete_fields = ('author', 'lesson')
 
 @admin.register(Notifications)
 class NotificationsAdmin(admin.ModelAdmin):
-    list_display = ('email', 'message', 'dispatch', 'created')
-    list_display_links = ('email',)
-    list_filter = ('dispatch', 'created')
-    search_fields = ('email__username', 'message')
-    autocomplete_fields = ('email',)
+    list_display = ( 'message', 'created')
 
+    list_filter = ('created',)
+    search_fields = ('message',)
+
+admin.site.register(Like)
 

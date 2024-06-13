@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import Direction,Courses,Teacher,Comments,Lesson, Notifications,UploadVideo
 
 
-
 class DirectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Direction
@@ -39,3 +38,10 @@ class CommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = '__all__'
+
+
+
+class LikeSerializer(serializers.Serializer):
+    lesson = serializers.IntegerField()
+    like = serializers.BooleanField()
+    dislike = serializers.BooleanField()

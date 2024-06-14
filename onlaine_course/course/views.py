@@ -12,7 +12,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 class DirectionViewSet(viewsets.ModelViewSet):
-    '''yo'nalishlarni ular haqidagi malumotlarni foydalanuvchiga chiqarib beradi '''
+    ''' bu ViewSet orqali yonalishlar va ular haqidagi malumotlarni  chiqarib beradi va adminuserlarga CRUD qilishga,yangi yo'nalishlarni qo'shishga
+    imkon beradi, userlar malumotlarni filter qilsa va izlasa bo'ladi'''
     queryset = Direction.objects.all()
     serializer_class = DirectionSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -23,6 +24,8 @@ class DirectionViewSet(viewsets.ModelViewSet):
 
 
 class CoursesViewSet(viewsets.ModelViewSet):
+    '''bu ViewSet mavjud kurslar va ular haqidagi to'liq malumotlarni chiqarib beradi va adminuserlarga CRUD qilishga
+    imkon beradi, userlar malumotlarni filter qilsa va izlasa bo'ladi'''
     queryset = Courses.objects.all()
     serializer_class = CoursesSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -32,6 +35,8 @@ class CoursesViewSet(viewsets.ModelViewSet):
     ordering_fields = ['beginning','name']
 
 class TeacherViewSet(viewsets.ModelViewSet):
+    '''bu ViewSet ustozlar haqidagi malumotlarni chiqarib beradi va adminuserlarga CRUD qilishga,yangi ustozlar va va ular haqidagi malumotlarni
+    qo'shishga imkon beradi, userlar malumotlarni filter qilsa va izlasa bo'ladi'''
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -41,6 +46,8 @@ class TeacherViewSet(viewsets.ModelViewSet):
     ordering_fields = ['full_name','experience']
 
 class LessonViewSet(viewsets.ModelViewSet):
+    ''' bu ViewSet orqali darsni  chiqarib beradi va adminuserlarga CRUD qilishga,yangi darslarni qo'shishga
+    imkon beradi, userlar malumotlarni filter qilsa va izlasa bo'ladi'''
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -51,6 +58,8 @@ class LessonViewSet(viewsets.ModelViewSet):
 
 
 class UploadVideoViewSet(viewsets.ModelViewSet):
+    ''' bu ViewSet orqali dars uchun vidyolarni  chiqarib beradi va adminuserlarga CRUD qilishga,yangi vidyolarni qo'shishga
+    imkon beradi, userlar malumotlarni filter qilsa va izlasa bo'ladi'''
     queryset = UploadVideo.objects.all()
     serializer_class = UploadVideoSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -61,6 +70,7 @@ class UploadVideoViewSet(viewsets.ModelViewSet):
 
 
 class CommentsViewSet(viewsets.ModelViewSet):
+    ''' bu ViewSet orqali darslar uchun userlar izohlar qoldirsa boladi royhatdan o'tmaganlar faqat izohlarni kora oladi '''
     queryset = Comments.objects.all()
     serializer_class = CommentsSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -72,6 +82,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
 
 
 class NotificationViewSet(viewsets.ModelViewSet):
+    ''' bu ViewSet orqali  userlarga bildirishnomalarni email manzillariga yuborsa bo'ladi'''
     queryset = Notifications.objects.all()
     serializer_class = NotificationSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -90,8 +101,8 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
 
 class LikeViewSet(viewsets.ViewSet):
+    ''' bu ViewSet orqali foydalanuvchilar darslar uchun baho bersa bo'ladi'''
     permission_classes = [IsAuthenticatedOrReadOnly]
-
     def create(self, request):
         serializer = LikeSerializer(data=request.data)
         if serializer.is_valid():

@@ -19,7 +19,7 @@ class DirectionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter,DjangoFilterBackend,filters.OrderingFilter]
     filterset_fields = ['name']
-    search_fields = ['name']
+    search_fields = ['name','description']
     ordering_fields = ['name']
 
 
@@ -31,7 +31,7 @@ class CoursesViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter,DjangoFilterBackend,filters.OrderingFilter]
     filterset_fields = ['direction','name','author']
-    search_fields = ['author__username','name','direction__name']
+    search_fields = ['author__username','name','direction__name','description']
     ordering_fields = ['beginning','name']
 
 class TeacherViewSet(viewsets.ModelViewSet):
@@ -53,7 +53,7 @@ class LessonViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter,DjangoFilterBackend,filters.OrderingFilter]
     filterset_fields = ['course','title']
-    search_fields = ['course__name','^title']
+    search_fields = ['course__name','^title','description']
     ordering_fields = ['created']
 
 

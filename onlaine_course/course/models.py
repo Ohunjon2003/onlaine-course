@@ -3,6 +3,7 @@ from django.core.validators import FileExtensionValidator, ValidationError
 from django.db import models
 
 class Direction(models.Model):
+    '''yo'nalishlar nomi va qisqacha malumot'''
     name = models.CharField(max_length=100, verbose_name="Yonalish nomi")
     description = models.TextField(verbose_name="Yonalishlar haqida malumot")
 
@@ -10,6 +11,7 @@ class Direction(models.Model):
         return self.name
 
 class Courses(models.Model):
+    '''kurslarni va ular haqidagi malumotlar'''
     direction = models.ForeignKey(Direction, on_delete=models.CASCADE, related_name='courses')
     name = models.CharField(max_length=100, verbose_name="kurs nomi")
     duration = models.CharField(max_length=50, verbose_name="Davomiyligi")
@@ -22,6 +24,7 @@ class Courses(models.Model):
         return self.name
 
 class Teacher(models.Model):
+    '''darslarni o'tadigan ustozlar haqida malumotlar'''
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, related_name='teacher_profile')
     full_name = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='teachers/', verbose_name="Rasimi")
@@ -33,6 +36,7 @@ class Teacher(models.Model):
         return self.full_name
 
 class Lesson(models.Model):
+    '''o'tilgan darslar'''
     course = models.ForeignKey(Courses, on_delete=models.SET_NULL, null=True, related_name='lessons')
     teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, related_name='lessons')
     title = models.CharField(max_length=100, verbose_name="Dars mavzusi")
@@ -45,12 +49,12 @@ class Lesson(models.Model):
         return self.title
 
 class UploadVideo(models.Model):
+    '''darslar uchun qo'yiladigan vidyolar '''
     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, related_name='videos')
     author = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     video = models.FileField(upload_to='lesson/videos/', validators=[
         FileExtensionValidator(allowed_extensions=['mp4', 'wmv'])
     ])
-
     def clean(self):
         self.file_size_validator()
 
@@ -65,23 +69,31 @@ class UploadVideo(models.Model):
 
 
 class Like(models.Model):
+    '''o'tilgan darslarga foydalanuvchilarni bahosi'''
     lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     like_or_dislike = models.BooleanField()
 
+    def __str__(self):
+        return f"{self.user} ni {self.lesson} ga bergan bahosi"
+
 
 
 class Comments(models.Model):
+    '''darslarga yozilgan izohlar'''
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="kim yozgani", related_name='comments')
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name="qaysi dars uchun", related_name='comments')
     text = models.TextField(verbose_name="Matn")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Kiritilgan vaqti")
 
     def __str__(self):
-        return f'Comment by {self.author} on {self.lesson}'
+        return f"{self.author} ni {self.lesson}ga yozgan commenti"
 
 class Notifications(models.Model):
+    '''foydalanuvchilarga yuborilgan bildirishnomalar'''
     title = models.CharField(max_length=200,null=True,blank=True)
     message = models.TextField(verbose_name="Xabar")
     created = models.DateTimeField(auto_now_add=True,verbose_name='yuborilgan vaqt')
+    def __str__(self):
+        return self.title
 

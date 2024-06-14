@@ -12,6 +12,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 class DirectionViewSet(viewsets.ModelViewSet):
+    '''yo'nalishlarni ular haqidagi malumotlarni foydalanuvchiga chiqarib beradi '''
     queryset = Direction.objects.all()
     serializer_class = DirectionSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -33,7 +34,7 @@ class CoursesViewSet(viewsets.ModelViewSet):
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['full_name']
     search_fields = ['full_name']
